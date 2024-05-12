@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:Kariera/Components/helper_function.dart';
 import 'package:Kariera/Components/textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 class Signup extends StatefulWidget {
-  const Signup({super.key});
+  const Signup({Key? key}) : super(key: key);
 
   @override
   State<Signup> createState() => _SignupState();
@@ -13,24 +12,39 @@ class Signup extends StatefulWidget {
 
 class _SignupState extends State<Signup> {
   final TextEditingController Emailcontroller = TextEditingController();
-
   final TextEditingController Usernamecontroller = TextEditingController();
-
   final TextEditingController pwcontroller = TextEditingController();
-
   final TextEditingController confirmpwcontroller = TextEditingController();
+  bool isLoading = false; // Ajout d'un indicateur de chargement
 
   Future<void> signup() async {
+    setState(() {
+      isLoading = true; // Activer l'indicateur de chargement au début du processus d'inscription
+    });
+
     if (pwcontroller.text != confirmpwcontroller.text) {
       displayMessageToUser("Passwords doesn't match", context);
+      setState(() {
+        isLoading = false; // Désactiver l'indicateur de chargement en cas d'erreur
+      });
+      return;
     }
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: Emailcontroller.text, password: pwcontroller.text);
+      _sendInfo(Emailcontroller.text, pwcontroller.text);
+      Navigator.pushReplacementNamed(context, "homepage");
     } on FirebaseAuthException catch (e) {
       displayMessageToUser(e.code, context);
+    } finally {
+      setState(() {
+        isLoading = false; // Désactiver l'indicateur de chargement à la fin du processus d'inscription
+      });
     }
   }
+
+ 
+
 
 //rani zdt hdi func bach dkhl data f firestore
   void _sendInfo(String email, String password) async {

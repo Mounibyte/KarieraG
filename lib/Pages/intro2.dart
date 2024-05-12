@@ -44,12 +44,17 @@ class _Intropage2State extends State<Intropage2> {
                 const SizedBox(
                   height: 45,
                 ),
-                Text(
-                  "Développez vos connaissances dans de nombreux domaines",
-                  style: GoogleFonts.notoSerif(
-                      fontSize: 20, fontWeight: FontWeight.bold),
+                Padding(
+                  padding: EdgeInsets.only(left: 20),
+                  child: Center(
+                    child: Text(
+                      "Développez En tant qu'étudiant vos connaissances dans de nombreux domaines",
+                      style: GoogleFonts.notoSerif(
+                          fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ),
-              ]),
+    ]),
             ),
             Container(
               color: const Color.fromARGB(188, 207, 226, 239),
@@ -58,17 +63,20 @@ class _Intropage2State extends State<Intropage2> {
                   height: 50,
                 ),
                 Lottie.network(
-                  'https://lottie.host/d7f3623e-d9c1-4484-8090-de8dcd6c3398/noJ2GBui6Y.json',
+                  'https://lottie.host/ca3fae46-49c8-483a-8736-e1edd0c982d6/SIh4iUwtPQ.json',
                   width: 300,
                   height: 300,
                 ),
                 const SizedBox(
                   height: 45,
                 ),
-                Text(
-                  "Pratiquez vos Connaissances apprises",
-                  style: GoogleFonts.notoSerif(
-                      fontSize: 20, fontWeight: FontWeight.bold),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Text(
+                    "Recherchez Et Consultez Des Formations",
+                    style: GoogleFonts.notoSerif(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ]),
             ),
@@ -79,6 +87,7 @@ class _Intropage2State extends State<Intropage2> {
                   height: 50,
                 ),
                 Lottie.network(
+                  
                   'https://lottie.host/6b0b0a7a-fa6c-4b58-896d-7a2414051330/ZKEZt1u4Xi.json',
                   width: 300,
                   height: 300,
@@ -86,10 +95,13 @@ class _Intropage2State extends State<Intropage2> {
                 const SizedBox(
                   height: 45,
                 ),
-                Text(
-                  "Regardez Des Cours Enregistreés",
-                  style: GoogleFonts.notoSerif(
-                      fontSize: 20, fontWeight: FontWeight.bold),
+                Padding(
+                  padding: const EdgeInsets.only(left:20.0),
+                  child: Text(
+                    "Postez En Tant que Formateur Vos Propres Formations",
+                    style: GoogleFonts.notoSerif(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ]),
             ),

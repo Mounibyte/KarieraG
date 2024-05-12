@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:Kariera/Pages/Formateur.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -9,7 +10,7 @@ class WelcomePage extends StatelessWidget {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          color:  Color.fromARGB(255, 47, 94, 168), // Fond bleu
+          color: Color.fromARGB(255, 244, 241, 241), // Fond blanc
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -23,25 +24,29 @@ class WelcomePage extends StatelessWidget {
               children: <Widget>[
                 Column(
                   children: <Widget>[
-                    const Text(
-                      "Welcome In Kariera",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                        color: Color(0xff00a1e2), // Texte bleu ciel
+                    const SizedBox(height: 20,),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Center(
+                        child: Text(
+                                          "Bienvenue a Kariera",
+                                          style: GoogleFonts.notoSerif(
+                          fontSize: 30, ),
+                                        ),
                       ),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 30,
                     ),
-                    const Text(
-                      "Some Stupid desc gdboo,ddlmvpspvkiifkvvvvvvvvvvvvvvvv",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(0xff00a1e2),
-                        fontSize: 15,
-                      ),
-                    ),
+                     Center(
+                       child: Text(
+                        "Choisissez votre espace",
+                        style: GoogleFonts.lora(
+                            fontSize: 20,
+                      
+                            color: Colors.black87),
+                                           ),
+                     ),
                     const SizedBox(
                       height: 100,
                     ),
@@ -49,14 +54,20 @@ class WelcomePage extends StatelessWidget {
                       onTap: () {
                         Navigator.pushNamed(context, 'login');
                       },
-                      child: const Image(
-                        image: AssetImage('assets/etudiant.png'),
-                        width: 100,
+                      child: Container(
+                        decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+                        child: const Image(
+                          image: AssetImage('assets/student.png'),
+                          width: 100,
+                        ),
                       ),
                     ),
-                    const Text(
-                      'Etudiant',
-                      style: TextStyle(fontSize: 20, color: Color(0xff00a1e2),),
+                    Text(
+                      "Etudiant",
+                      style: GoogleFonts.lora(
+                          fontSize: 18,
+                          
+                          color: Colors.black),
                     ),
                     const SizedBox(
                       height: 100,
@@ -71,14 +82,23 @@ class WelcomePage extends StatelessWidget {
                           ),
                         );
                       },
-                      child: const Image(
-                        image: AssetImage('assets/formateur.png'),
-                        width: 100,
+                      child: Container(
+                        decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        ),
+                        child:  const Image(
+                          
+                          image: AssetImage('assets/formateur.png'),
+                          width: 100,
+                        ),
                       ),
                     ),
-                    const Text(
-                      'Formateur',
-                      style: TextStyle(fontSize: 20, color: Color(0xff00a1e2),),
+                    Text(
+                      "Formateur",
+                      style: GoogleFonts.lora(
+                          fontSize: 18,
+                          
+                          color: Colors.black),
                     ),
                     const SizedBox(
                       height: 40,

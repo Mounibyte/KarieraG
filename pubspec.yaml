@@ -46,6 +46,10 @@ dependencies:
   smooth_page_indicator:
   google_sign_in:
   awesome_dialog:
+  flutter_facebook_auth: 
+  image_picker: 
+  firebase_storage:
+  shared_preferences:
   
 
 dev_dependencies:

@@ -1,7 +1,9 @@
+import 'package:Kariera/Components/textfield.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FormateurPage extends StatefulWidget {
   const FormateurPage({Key? key}) : super(key: key);
@@ -14,6 +16,8 @@ class _FormateurPageState extends State<FormateurPage> {
   final emailController = TextEditingController();
   final _emailController = TextEditingController();
   final letterController = TextEditingController();
+  final nomdinstitutController = TextEditingController();
+  final numeroController = TextEditingController();
 
   bool _here = false;
 
@@ -62,8 +66,10 @@ class _FormateurPageState extends State<FormateurPage> {
         .doc(emailController.text)
         .set({
       'email': emailController.text, //gmail.com
-
+      'numero': numeroController.text,
+      'nom_dinstitut': nomdinstitutController.text,
       'letter': letterController.text,
+
     });
     emailController.clear();
     letterController.clear();
@@ -72,6 +78,7 @@ class _FormateurPageState extends State<FormateurPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[300],
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Container(
@@ -85,58 +92,84 @@ class _FormateurPageState extends State<FormateurPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Column(
-                    children: <Widget>[
-                      const Text(
-                        "Login as Formateur",
-                        style:
-                            TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                    children: [
+                      const SizedBox(height: 40,),
+                       Padding(
+                         padding: const EdgeInsets.only(left: 20),
+                         child: Text(
+                                           "Se Connecter en tant que Formateur",
+                                           style: GoogleFonts.notoSerif(
+                                               fontSize: 20, ),
+                                         ),
+                       ),
+                      const SizedBox(
+                        height: 40,
                       ),
                       const SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
                           width: 150,
-                          child: Image(image: AssetImage('assets/frm2.jpg'))),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      TextField(
-                        controller: _emailController,
-                        decoration: InputDecoration(
-                          hintText: 'Your Email Ends with udemylite.com',
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateColor.resolveWith(
-                                  (states) => Colors.grey)),
-                          onPressed: () {
-                            _check_info_formateur();
-                          },
-                          child: Text(
-                            'login',
-                            style: TextStyle(color: Colors.black),
+                          child: CircleAvatar(
+                            backgroundImage: AssetImage('assets/formimage.jpeg'),
+                            radius: 70,
                           )),
                       const SizedBox(
+                        height: 45,
+                      ),
+                    
+                        textfield(
+                                          hintText: "Saissisez votre code",
+                                          obscureText: true,
+                                          controlleer: _emailController,
+                                        ),
+                      
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      GestureDetector(
+                          
+                          onTap: () {
+                            _check_info_formateur();
+                          },
+                          child:
+                          Container(
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.symmetric(horizontal: 35),
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 43, 40, 40),
+                      borderRadius: BorderRadius.circular(17),
+                    ),
+                    child: Center(
+                        child: Text(
+                      'Sign In',
+                      style: GoogleFonts.lora(fontSize: 17,color:Colors.white,fontWeight:FontWeight.bold),
+                    )),
+                  ), 
+                          
+                          
+                          ),
+                      const SizedBox(
                         height: 20,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text('Be a formateur with us!'),
-                          TextButton(
-                            onPressed: () {
-                              setState(() {
-                                _here = !_here;
-                              });
-                            },
-                            child: const Text('here'),
-                          ),
-                        ],
-                      ),
+                       Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                             Text('Devenez un formateur !',
+                             style: GoogleFonts.lora(
+                              fontSize:15,
+                              color:Colors.black,
+                             ),
+                             ),
+                            TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  _here = !_here;
+                                });
+                              },
+                              child:  Text('Cliquez',
+                              style: GoogleFonts.lora(fontWeight: FontWeight.bold)),
+                            ),
+                          ],
+                        ),
+                      
                       
                       _here
                           ? Column(
@@ -151,8 +184,22 @@ class _FormateurPageState extends State<FormateurPage> {
                                 ),
                                 TextField(
                                   controller: emailController,
-                                  decoration: InputDecoration(
-                                    hintText: 'Email Personal',
+                                  decoration: const InputDecoration(
+                                    hintText: 'Email Personnel',
+                                  ),
+                                ),
+                                const SizedBox(height: 20,),
+                                 TextField(
+                                  controller: numeroController,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Numero de telephone',
+                                  ),
+                                ),
+                                 const SizedBox(height: 20,),
+                                 TextField(
+                                  controller: nomdinstitutController,
+                                  decoration: const InputDecoration(
+                                    hintText: "Nom d'institut",
                                   ),
                                 ),
                                 const SizedBox(
@@ -160,7 +207,7 @@ class _FormateurPageState extends State<FormateurPage> {
                                 ),
                                 TextField(
                                   controller: letterController,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     hintText: 'Registration Letter',
                                   ),
                                 ),
@@ -185,13 +232,13 @@ class _FormateurPageState extends State<FormateurPage> {
                                                   'Check your Email we send you a new email to sign in')
                                           .show();
                                     },
-                                    child: Text(
+                                    child: const Text(
                                       'Register',
                                       style: TextStyle(color: Colors.black),
                                     )),
                               ],
                             )
-                          : SizedBox(), // If not _here, display an empty SizedBox
+                          : const SizedBox(), // If not _here, display an empty SizedBox
                     ],
                   ),
                 ],

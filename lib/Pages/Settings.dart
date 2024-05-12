@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Setting extends StatelessWidget {
   @override
@@ -9,7 +11,21 @@ class Setting extends StatelessWidget {
        
       ),
       body: Center(
-        child: Text('Bienvenue dans les paramètres !'),
+        child:  GestureDetector(
+                          onTap: () async {
+                            await FirebaseAuth.instance.signOut();
+
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, 'login', (route) => false);
+                          },
+                          child: Text(
+                            "Se déconnecter",
+                            style: GoogleFonts.lora(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                        ),
       ),
     );
   }

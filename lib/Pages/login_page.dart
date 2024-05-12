@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart'; 
 import 'package:Kariera/Components/textfield.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
-
 class Loginpage extends StatefulWidget {
-  const Loginpage({super.key});
+  const Loginpage({Key? key}) : super(key: key);
 
   @override
   State<Loginpage> createState() => _LoginpageState();
@@ -14,20 +13,55 @@ class Loginpage extends StatefulWidget {
 class _LoginpageState extends State<Loginpage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool isLoading = false; // Ajout d'un indicateur de chargement
 
   Future<void> login() async {
+    setState(() {
+      isLoading = true; // Activer l'indicateur de chargement au début du processus de connexion
+    });
+
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
+        email: emailController.text, 
+        password: passwordController.text,
+      );
       Navigator.pushReplacementNamed(context, "homepage");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Wrong password provided. Please try again.')),
+        );
       }
+    } finally {
+      setState(() {
+        isLoading = false; // Désactiver l'indicateur de chargement à la fin du processus de connexion
+      });
     }
   }
+
+  
+
+
+
+  Future<void> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser != null) {
+        final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        await FirebaseAuth.instance.signInWithCredential(credential);
+        Navigator.pushReplacementNamed(context, "homepage");
+      }
+    } catch (e) {
+      print('Error signing in with Google: $e');
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,15 +76,16 @@ class _LoginpageState extends State<Loginpage> {
                   height: 50,
                 ),
                 const Center(
-                    child: Icon(
-                  Icons.lock,
-                  size: 100,
-                )),
+                  child: Icon(
+                    Icons.lock,
+                    size: 100,
+                  ),
+                ),
                 const SizedBox(
                   height: 30,
                 ),
                 const Text(
-                  "Welcome back,you've been missed!",
+                  "Welcome back, you've been missed!",
                   style: TextStyle(fontSize: 21),
                   textAlign: TextAlign.center,
                 ),
@@ -89,9 +124,7 @@ class _LoginpageState extends State<Loginpage> {
                   height: 30,
                 ),
                 GestureDetector(
-                  onTap: () {
-                    login();
-                  },
+                  onTap: login,
                   child: Container(
                     padding: const EdgeInsets.all(20),
                     margin: const EdgeInsets.symmetric(horizontal: 35),
@@ -100,13 +133,15 @@ class _LoginpageState extends State<Loginpage> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: const Center(
-                        child: Text(
-                      'Sign In',
-                      style: TextStyle(
+                      child: Text(
+                        'Sign In',
+                        style: TextStyle(
                           fontSize: 16,
                           color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    )),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -133,27 +168,22 @@ class _LoginpageState extends State<Loginpage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 55,
-                      child: Image.asset('assets/google.png'),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(16),
-                        color: Colors.grey[200],
+                    GestureDetector(
+                      onTap: signInWithGoogle,
+                      child: Container(
+                        width: 55,
+                        child: Image.asset('assets/google.png'),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(16),
+                          color: Colors.grey[200],
+                        ),
                       ),
                     ),
                     const SizedBox(
                       width: 20,
                     ),
-                    Container(
-                      width: 55,
-                      child: Image.asset('assets/facebook.png'),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(16),
-                        color: Colors.grey[200],
-                      ),
-                    ),
+                   
                   ],
                 ),
                 const SizedBox(
@@ -164,13 +194,14 @@ class _LoginpageState extends State<Loginpage> {
                   children: [
                     const Text("Not a member?"),
                     GestureDetector(
-                        onTap: () {
-                          Navigator.pushReplacementNamed(context, "signup");
-                        },
-                        child: const Text(
-                          " Register now",
-                          style: TextStyle(color: Colors.blue),
-                        )),
+                      onTap: () {
+                        Navigator.pushReplacementNamed(context, "signup");
+                      },
+                      child: const Text(
+                        " Register now",
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -178,15 +209,6 @@ class _LoginpageState extends State<Loginpage> {
           ),
         ),
       ),
-      //welcome back you've been missed
-
-      //username textfield
-
-      //password textfield
-
-      //sign in button
-
-      //not a member register now
     );
   }
 }

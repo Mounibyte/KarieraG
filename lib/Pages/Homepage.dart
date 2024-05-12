@@ -1,6 +1,6 @@
+import 'package:Kariera/Pages/Favorite_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:Kariera/Pages/Favorite_page.dart';
 import 'package:Kariera/Pages/home.dart';
 import 'package:Kariera/Pages/profile_page.dart';
 import 'package:Kariera/Pages/search_page.dart';
@@ -20,7 +20,7 @@ setState(() {
 });
 }
 final List <Widget>_pages = [
-Home(),
+HomePage(),
 SearchPage(),
 FavoritePage(),
 ProfilePage(),

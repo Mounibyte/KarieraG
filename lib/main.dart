@@ -1,8 +1,8 @@
+
+import 'package:Kariera/Pages/Favorite_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:Kariera/Models/Formations_model.dart';
-import 'package:Kariera/Pages/Favorite_page.dart';
 import 'package:Kariera/Pages/Homepage.dart';
 import 'package:Kariera/Pages/WelcomePage.dart';
 import 'package:Kariera/Pages/formateurProfile.dart';
@@ -14,15 +14,15 @@ import 'package:Kariera/Pages/sign_up.dart';
 import 'package:Kariera/firebase_options.dart';
 import 'package:Kariera/Pages/login_page.dart';
 
-import 'package:provider/provider.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(ChangeNotifierProvider(
-    create: (context) => FormationModel(),
-    child: const MyApp(),
-  ));
+ runApp(
+    MyApp(),
+  
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -54,8 +54,13 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
-      home:
-          FirebaseAuth.instance.currentUser == null ? Intropage2() : formateurhome(),
+      home: FirebaseAuth.instance.currentUser == null
+        ? Intropage2() 
+        : FirebaseAuth.instance.currentUser!.email != null &&
+                FirebaseAuth.instance.currentUser!.email!.endsWith('@vini.com')
+            ? formateurhome() 
+            : Homepage(),
+
       routes: {
         "homepage": (context) => Homepage(),
         "profil": (context) => ProfilePage(),
@@ -64,8 +69,7 @@ class _MyAppState extends State<MyApp> {
         "login": (context) => Loginpage(),
         "formateurhome": (context) => formateurhome(),
         "welcomepage": (context) => WelcomePage(),
-        "formulair": (context) =>
-            FormulairPage(), //hdi tetbdl men ba3d 3la hsab page t3 yassin
+        "formulair": (context) =>  FormulairPage(), //hdi tetbdl men ba3d 3la hsab page t3 yassin
         "formateurprofile": (context) => FormateurProfile(),
       },
     );
