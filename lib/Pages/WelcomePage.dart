@@ -10,103 +10,96 @@ class WelcomePage extends StatelessWidget {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 244, 241, 241), // Fond blanc
+          gradient: LinearGradient(
+            colors: [Color.fromARGB(255, 128, 138, 156), Color.fromARGB(255, 128, 138, 156)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Container(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height,
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    const SizedBox(height: 20,),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Center(
-                        child: Text(
-                                          "Bienvenue a Kariera",
-                                          style: GoogleFonts.notoSerif(
-                          fontSize: 30, ),
-                                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                     Center(
-                       child: Text(
-                        "Choisissez votre espace",
-                        style: GoogleFonts.lora(
-                            fontSize: 20,
-                      
-                            color: Colors.black87),
-                                           ),
-                     ),
-                    const SizedBox(
-                      height: 100,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, 'login');
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-                        child: const Image(
-                          image: AssetImage('assets/student.png'),
-                          width: 100,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      "Etudiant",
-                      style: GoogleFonts.lora(
-                          fontSize: 18,
-                          
-                          color: Colors.black),
-                    ),
-                    const SizedBox(
-                      height: 100,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        //tedina l page
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const FormateurPage(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        ),
-                        child:  const Image(
-                          
-                          image: AssetImage('assets/formateur.png'),
-                          width: 100,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      "Formateur",
-                      style: GoogleFonts.lora(
-                          fontSize: 18,
-                          
-                          color: Colors.black),
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                  ],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Center(
+                child: Text(
+                  "Bienvenue à Kariera",
+                  style: GoogleFonts.notoSerif(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 20),
+              Center(
+                child: Text(
+                  "Choisissez votre espace",
+                  style: GoogleFonts.lora(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white70,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 60),
+              buildOption(
+                context,
+                'assets/student.png',
+                'Etudiant',
+                'login',
+              ),
+              const SizedBox(height: 40),
+              buildOption(
+                context,
+                'assets/formateur.png',
+                'Formateur',
+                MaterialPageRoute(builder: (context) => const FormateurPage()),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildOption(BuildContext context, String imagePath, String label, dynamic route) {
+    return GestureDetector(
+      onTap: () {
+        if (route is String) {
+          Navigator.pushNamed(context, route);
+        } else if (route is MaterialPageRoute) {
+          Navigator.push(context, route);
+        }
+      },
+      child: Card(
+        elevation: 8,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Image.asset(
+                imagePath,
+                width: 100,
+                semanticLabel: label,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                label,
+                style: GoogleFonts.lora(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              ),
+            ],
           ),
         ),
       ),

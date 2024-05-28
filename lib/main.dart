@@ -1,4 +1,3 @@
-
 import 'package:Kariera/Pages/Favorite_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,16 +12,19 @@ import 'package:Kariera/Pages/profile_page.dart';
 import 'package:Kariera/Pages/sign_up.dart';
 import 'package:Kariera/firebase_options.dart';
 import 'package:Kariera/Pages/login_page.dart';
-
-
-
+import 'package:provider/provider.dart';
+import 'Components/theme.dart';
+import 'Pages/Settings.dart'; 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
- runApp(
-    MyApp(),
-  
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ThemeNotifier(),
+      child: MyApp(),
+    ),
   );
+   
 }
 
 class MyApp extends StatefulWidget {
@@ -47,30 +49,32 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Kariera',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
-        useMaterial3: true,
-      ),
-      home: FirebaseAuth.instance.currentUser == null
-        ? Intropage2() 
-        : FirebaseAuth.instance.currentUser!.email != null &&
-                FirebaseAuth.instance.currentUser!.email!.endsWith('@vini.com')
-            ? formateurhome() 
-            : Homepage(),
-
-      routes: {
-        "homepage": (context) => Homepage(),
-        "profil": (context) => ProfilePage(),
-        "fav": (context) => FavoritePage(),
-        "signup": (context) => Signup(),
-        "login": (context) => Loginpage(),
-        "formateurhome": (context) => formateurhome(),
-        "welcomepage": (context) => WelcomePage(),
-        "formulair": (context) =>  FormulairPage(), //hdi tetbdl men ba3d 3la hsab page t3 yassin
-        "formateurprofile": (context) => FormateurProfile(),
+    return Consumer<ThemeNotifier>(
+      builder: (context, themeNotifier, child) {
+        return MaterialApp(
+          title: 'Kariera',
+          debugShowCheckedModeBanner: false,
+          theme: themeNotifier.isDarkMode ? ThemeData.dark() : ThemeData.light(),
+          home: FirebaseAuth.instance.currentUser == null
+              ? Intropage2()
+              : FirebaseAuth.instance.currentUser!.email != null &&
+                      FirebaseAuth.instance.currentUser!.email!.endsWith('@kariera.com')
+                  ? formateurhome()
+                  : Homepage(),
+          routes: {
+            "homepage": (context) => Homepage(),
+            "profil": (context) => ProfilePage(),
+            "fav": (context) => FavoritePage(),
+            "signup": (context) => Signup(),
+            "login": (context) => Loginpage(),
+            "formateurhome": (context) => formateurhome(),
+            "welcomepage": (context) => WelcomePage(),
+            "formulair": (context) => FormulairPage(),
+            "formateurprofile": (context) => FormateurProfile(),
+            "settings": (context) => SettingsPage(),
+             
+          },
+        );
       },
     );
   }

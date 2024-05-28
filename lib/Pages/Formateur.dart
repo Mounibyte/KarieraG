@@ -29,7 +29,7 @@ class _FormateurPageState extends State<FormateurPage> {
         .doc(_emailController.text)
         .get();
     if (documentSnapshot.exists) {
-      final email = documentSnapshot['newEmail'];
+      final email = documentSnapshot['CodeVLD'];
 
       print(email);
       if (_emailController.text == email) {
@@ -78,6 +78,7 @@ class _FormateurPageState extends State<FormateurPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(backgroundColor: Colors.transparent,),
       backgroundColor: Colors.grey[300],
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -93,7 +94,7 @@ class _FormateurPageState extends State<FormateurPage> {
                 children: <Widget>[
                   Column(
                     children: [
-                      const SizedBox(height: 40,),
+                     
                        Padding(
                          padding: const EdgeInsets.only(left: 20),
                          child: Text(
@@ -105,23 +106,23 @@ class _FormateurPageState extends State<FormateurPage> {
                       const SizedBox(
                         height: 40,
                       ),
-                      const SizedBox(
+                      SizedBox(
                           width: 150,
                           child: CircleAvatar(
                             backgroundImage: AssetImage('assets/formimage.jpeg'),
                             radius: 70,
                           )),
-                      const SizedBox(
+                      SizedBox(
                         height: 45,
                       ),
                     
                         textfield(
-                                          hintText: "Saissisez votre code",
+                                          hintText: "Code se termine par @kariera.com",
                                           obscureText: true,
                                           controlleer: _emailController,
                                         ),
                       
-                      const SizedBox(
+                      SizedBox(
                         height: 50,
                       ),
                       GestureDetector(
@@ -184,21 +185,21 @@ class _FormateurPageState extends State<FormateurPage> {
                                 ),
                                 TextField(
                                   controller: emailController,
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                     hintText: 'Email Personnel',
                                   ),
                                 ),
-                                const SizedBox(height: 20,),
+                                SizedBox(height: 20,),
                                  TextField(
                                   controller: numeroController,
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                     hintText: 'Numero de telephone',
                                   ),
                                 ),
-                                 const SizedBox(height: 20,),
+                                 SizedBox(height: 20,),
                                  TextField(
                                   controller: nomdinstitutController,
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                     hintText: "Nom d'institut",
                                   ),
                                 ),
@@ -207,19 +208,16 @@ class _FormateurPageState extends State<FormateurPage> {
                                 ),
                                 TextField(
                                   controller: letterController,
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                     hintText: 'Registration Letter',
                                   ),
                                 ),
                                 const SizedBox(
                                   height: 20,
                                 ),
-                                ElevatedButton(
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateColor.resolveWith(
-                                                (states) => Colors.grey)),
-                                    onPressed: () {
+                                GestureDetector(
+                                    
+                                    onTap: () {
                                       //sned info to firestore fourmateur_demande
                                       _sendinfo_formateur();
                       
@@ -232,13 +230,22 @@ class _FormateurPageState extends State<FormateurPage> {
                                                   'Check your Email we send you a new email to sign in')
                                           .show();
                                     },
-                                    child: const Text(
-                                      'Register',
-                                      style: TextStyle(color: Colors.black),
-                                    )),
+                                    child:Container(
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.symmetric(horizontal: 35),
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 43, 40, 40),
+                      borderRadius: BorderRadius.circular(17),
+                    ),
+                    child: Center(
+                        child: Text(
+                      'Register',
+                      style: GoogleFonts.lora(fontSize: 17,color:Colors.white,fontWeight:FontWeight.bold),
+                    )),
+                  ), )
                               ],
                             )
-                          : const SizedBox(), // If not _here, display an empty SizedBox
+                          : SizedBox(), // If not _here, display an empty SizedBox
                     ],
                   ),
                 ],

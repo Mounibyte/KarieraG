@@ -36,8 +36,8 @@ class _Intropage2State extends State<Intropage2> {
                 const SizedBox(
                   height: 50,
                 ),
-                Lottie.network(
-                  'https://lottie.host/3fcbed19-750d-443c-93de-865b2117d36d/4NKnGjniVS.json',
+                Lottie.asset(
+                  'assets/1.json',
                   width: 300,
                   height: 300,
                 ),
@@ -62,8 +62,8 @@ class _Intropage2State extends State<Intropage2> {
                 const SizedBox(
                   height: 50,
                 ),
-                Lottie.network(
-                  'https://lottie.host/ca3fae46-49c8-483a-8736-e1edd0c982d6/SIh4iUwtPQ.json',
+                Lottie.asset(
+                 'assets/3.json',
                   width: 300,
                   height: 300,
                 ),
@@ -86,9 +86,9 @@ class _Intropage2State extends State<Intropage2> {
                 const SizedBox(
                   height: 50,
                 ),
-                Lottie.network(
+                Lottie.asset(
                   
-                  'https://lottie.host/6b0b0a7a-fa6c-4b58-896d-7a2414051330/ZKEZt1u4Xi.json',
+                  'assets/2.json',
                   width: 300,
                   height: 300,
                 ),

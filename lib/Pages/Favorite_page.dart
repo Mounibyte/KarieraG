@@ -1,7 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:Kariera/Pages/formation_details.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 class FavoritePage extends StatefulWidget {
   const FavoritePage({Key? key}) : super(key: key);
@@ -72,25 +75,78 @@ class _FavoritePageState extends State<FavoritePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Formations favorites'),
-      ),
-      body: ListView.builder(
-        itemCount: _favoriteFormations.length,
-        itemBuilder: (context, index) {
-          final formation = _favoriteFormations[index];
-          final isFavorite = true; // Mettez ici la logique pour vérifier si la formation est en favori ou non
-          return ListTile(
-            title: Text(formation['title'] ?? ''),
-            trailing: IconButton(
-              icon: Icon(
-                isFavorite ? Icons.favorite : Icons.favorite_border,
-                color: isFavorite ? Colors.red : null,
-              ),
-              onPressed: () => _toggleFavorite(formation, isFavorite),
+      
+      body: Column(
+        children: [
+          SizedBox(height: 80,),
+          Text("Vos Formations Favorites", style: GoogleFonts.notoSerif(fontWeight: FontWeight.bold, fontSize: 22),),
+          SizedBox(height: 30,),
+          Expanded(
+            child: ListView.separated(
+              separatorBuilder: (context, index) => SizedBox(height: 20,),
+              itemCount: _favoriteFormations.length,
+              itemBuilder: (context, index) {
+                final formation = _favoriteFormations[index];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FormationDetailsPage(
+                          formationData: formation.data() as Map<String, dynamic>,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                    child: ListTile(
+                      tileColor: Colors.white60,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      leading: Image.network(
+                        formation['imageUrl'],
+                        fit: BoxFit.cover,
+                      ),
+                      title: Text(formation['title'] ?? '', style: GoogleFonts.lora(color: Colors.black, fontWeight: FontWeight.bold)),
+                      subtitle: Column(
+                        children: [
+                          SizedBox(height: 20),
+                          Row(
+                            children: [
+                              Text('Durée :', style: GoogleFonts.notoSerif(fontSize: 13, color: Colors.black, fontWeight: FontWeight.bold),),
+                              SizedBox(width: 10,),
+                              Text(formation['duree'], style: GoogleFonts.lora(fontSize: 12, color: Colors.black),),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Text('Prerequis :', style: GoogleFonts.notoSerif(fontSize: 13, color: Colors.black, fontWeight: FontWeight.bold),),
+                              SizedBox(width: 10,),
+                              Text(formation['prerequis'], style: GoogleFonts.lora(fontSize: 12, color: Colors.black),),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Text('Catégorie :', style: GoogleFonts.notoSerif(fontSize: 13, color: Colors.black, fontWeight: FontWeight.bold),),
+                              SizedBox(width: 10,),
+                              Text(formation['categorie'], style: GoogleFonts.lora(fontSize: 12, color: Colors.black),),
+                            ],
+                          ),
+                          SizedBox(height: 10,),
+                         
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }
